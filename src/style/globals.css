@@ -31,3 +31,9 @@ body {
     text-wrap: balance;
   }
 }
+
+.example {
+  width: 300px;
+  height: 100px;
+  background: linear-gradient(-120deg, #A654F8 0%, #FEFAF4 20%, #A654F8 40%, #7621FE 60%, #A654F8 80%);
+}
