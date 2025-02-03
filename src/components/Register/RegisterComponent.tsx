@@ -1,5 +1,7 @@
 import { User } from "@/models/User";
 import { userService } from "@/services/userService";
+import { motion } from "framer-motion";
+import { CustomInputComponent } from "../CustomInput";
 
 export function RegisterComponent() {
 
@@ -17,14 +19,14 @@ export function RegisterComponent() {
     }
 
     return (
-        <div className="flex justify-center items-center w-full h-full">
-            <form className="gap-4 flex flex-col items-center" action="post" onSubmit={postUser}>
-                <span className=" font-mono text-lg">_register</span>
-                <input className="p-1 dark:text-white bg-transparent w-50 border-[1px] outline-none rounded-sm" type="text" name="name" id="name" placeholder="Name" required />
-                <input className="p-1 dark:text-white bg-transparent w-50 border-[1px] outline-none rounded-sm" type="email" name="email" id="email" placeholder="Email" required />
-                <input className="p-1 dark:text-white bg-transparent w-50 border-[1px] outline-none rounded-sm" type="password" name="password" id="password" placeholder="Password" required />
-                <input className="p-1 dark:text-white bg-transparent w-50 border-[1px] outline-none rounded-sm" type="number" name="age" id="age" placeholder="Age" required />
-                <button className="p-1 dark:text-white bg-green-400 w-28 rounded-sm" type="submit">Register</button>
+        <div className="flex justify-center items-center w-full h-full bg-white dark:bg-black">
+            <form className="shadow-2xl shadow-slate-600 p-10 gap-4 flex flex-col items-center rounded-md" action="post" onSubmit={postUser}>
+                <span className="text-black dark:text-white text-xl font-bold">_register</span>
+                <CustomInputComponent name="email" id="email" placeholder="E-mail" type="email" />
+                <CustomInputComponent name="name" id="name" placeholder="Name" type="text" />
+                <CustomInputComponent name="password" id="password" placeholder="Password" type="password" />
+                <CustomInputComponent name="age" id="age" placeholder="Age" type="number" />
+                <button className="p-1 text-white bg-blue-700 w-28 rounded-md outline-none" type="submit">Register</button>
             </form>
         </div>
     );

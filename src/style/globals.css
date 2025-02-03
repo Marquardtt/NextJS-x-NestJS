@@ -37,3 +37,9 @@ body {
   height: 100px;
   background: linear-gradient(-120deg, #A654F8 0%, #FEFAF4 20%, #A654F8 40%, #7621FE 60%, #A654F8 80%);
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

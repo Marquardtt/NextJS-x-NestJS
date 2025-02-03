@@ -1,42 +1,39 @@
-import { UserLogin } from "@/models/UserLogin"
+import { UserContext } from "@/contexts/UserContext"
 import { userService } from "@/services/userService"
-import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
+import { useContext, useState } from "react"
+import { CustomInputComponent } from "../CustomInput"
 
 export function LoginComponent() {
 
-    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    const { user, setUser } = useContext(UserContext)
+    const router = useRouter()
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
-        const user: UserLogin = {
+        const user: any = {
             email: formData.get('email') as string,
             password: formData.get('password') as string
         }
-        return userService.login(user)
+
+        try {
+            e.currentTarget.reset()
+            setUser!(await userService.login(user.email, user.password))
+            router.push("/home")
+        }
+        catch (err) {
+            return alert("User not found")
+        }
     }
 
     return (
-        <div className="flex justify-center items-center w-full h-full">
-            <form className="gap-4 flex flex-col items-center" action="post" onSubmit={handleLogin}>
-                <motion.span
-                    className="text-md font-bold font-mono"
-                    initial={{ backgroundPosition: "0% center" }}
-                    animate={{ backgroundPosition: "100% center" }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                    style={{
-                        backgroundImage: "linear-gradient(120deg, #FF1361 0%, #FF8C00 30%, #FFD700 50%, #8A2BE2 70%)",
-                        backgroundSize: "350% auto",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        display: "inline-block",
-                    }}
-                >
-                    login_
-                </motion.span>
-                <input className="p-1 dark:text-white bg-transparent w-50 border-[1px] outline-none rounded-sm" type="email" id="email" placeholder="E-mail" />
-                <input className="p-1 dark:text-white bg-transparent w-50 border-[1px] outline-none rounded-sm" type="password" id="password" placeholder="Password" />
-                <button type="submit">Login</button>
+        <div className="flex justify-center items-center w-full h-full bg-white dark:bg-black">
+            <form className="shadow-2xl shadow-slate-600 p-10 rounded-md gap-4 flex flex-col items-center" action="post" onSubmit={handleLogin}>
+                <span className="text-black dark:text-white text-xl font-bold">login_</span>
+                <CustomInputComponent name="email" id="email" placeholder="E-mail" type="email"/>
+                <CustomInputComponent name="password" id="password" placeholder="Password" type="password"/>
+                <button className="bg-blue-700 w-20 h-8 rounded-md text-white outline-none" type="submit">login</button>
             </form>
         </div>
-
     )
 }

@@ -1,26 +1,16 @@
 'use client'
 
-import { User } from "@/models/User";
-import { useEffect, useState } from "react";
-import { userService } from "@/services/userService";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/contexts/UserContext";
+import 'primeicons/primeicons.css';
+
 export function HeaderComponent() {
 
+    const { user, setUser } = useContext(UserContext);
     const [theme, setTheme] = useState<string>('light');
-    const [user, setUser] = useState<User | null>(null);
+    const [smallMenu, setSmallMenu] = useState<boolean>(false);
     const router = useRouter()
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const data = await userService.getUser(1)
-                setUser(data)
-            } catch {
-                setUser(null)
-            }
-        }
-        fetchUserData()
-    }, [])
 
     const handleTheme = () => {
         const htmlElement = document.documentElement;
@@ -46,13 +36,21 @@ export function HeaderComponent() {
     }, []);
 
     return (
-        <div className="dark:bg-black bg-white w-full font-mono text-sm h-14 ">
-            <div className="flex items-center justify-between px-4 w-full h-full">
-                <span className="dark:text-white text-black">Logged user -- {user?.name || "Usuario nao encontrado"}</span>
-                <div className="flex gap-4 items-center">
-                    <span className="cursor-pointer hover:text-purple-500 duration-500" onClick={() => router.push("/login")}>_register</span>
-                    <span className="cursor-pointer hover:text-purple-500 duration-500" onClick={() => router.push("/login")}>login_</span>
-                    <span style={{ fontSize: 25 }} onClick={() => handleTheme()} className={`cursor-pointer w-3 h-3 ${theme == 'dark' ? "bg-white" : "bg-black"}`}></span>
+        <div className="fixed shadow-2xl shadow-slate-500 dark:bg-slate-600 bg-blue-600 w-full  text-sm h-14 ">
+            <div className="flex items-center justify-end px-4 w-full h-full">
+                <div className="flex gap-4 items-center ">
+                    {user == null ?
+                        <>
+                            <span className="dark:text-white cursor-pointer duration-500" onClick={() => router.push("/register")}>_register</span>
+                            <span className="dark:text-white cursor-pointer duration-500" onClick={() => router.push("/login")}>login_</span>
+                        </> :
+                        <>
+                            <div className="flex gap-2 items-center">
+                                <span className={`pi pi-angle-up cursor-pointer duration-300 ${!smallMenu ? "" : "rotate-180"}`} onClick={() => setSmallMenu(!smallMenu)}></span>
+                            </div>
+                            <div className="w-10 h-10 bg-white rounded-full"></div>
+                        </>}
+                    <span style={{ fontSize: '0.9rem' }} onClick={() => handleTheme()} className={`cursor-pointer w-3 h-3 ${theme == 'dark' ? "pi pi-moon" : "pi pi-sun"}`}></span>
                 </div>
             </div>
         </div>
