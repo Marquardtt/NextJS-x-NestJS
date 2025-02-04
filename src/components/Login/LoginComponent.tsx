@@ -1,10 +1,10 @@
 import { UserContext } from "@/contexts/UserContext"
 import { userService } from "@/services/userService"
 import { useRouter } from "next/navigation"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { CustomInputComponent } from "../CustomInput"
 
-export function LoginComponent() {
+export const LoginComponent = () => {
 
     const { user, setUser } = useContext(UserContext)
     const router = useRouter()
@@ -18,7 +18,9 @@ export function LoginComponent() {
 
         try {
             e.currentTarget.reset()
-            setUser!(await userService.login(user.email, user.password))
+            const userLogin = await userService.login(user.email, user.password)
+            setUser!(userLogin)
+            localStorage.setItem('user', userLogin.id!.toString())
             router.push("/home")
         }
         catch (err) {
@@ -30,8 +32,8 @@ export function LoginComponent() {
         <div className="flex justify-center items-center w-full h-full bg-white dark:bg-black">
             <form className="shadow-2xl shadow-slate-600 p-10 rounded-md gap-4 flex flex-col items-center" action="post" onSubmit={handleLogin}>
                 <span className="text-black dark:text-white text-xl font-bold">login_</span>
-                <CustomInputComponent name="email" id="email" placeholder="E-mail" type="email"/>
-                <CustomInputComponent name="password" id="password" placeholder="Password" type="password"/>
+                <CustomInputComponent name="email" id="email" placeholder="E-mail" type="email" />
+                <CustomInputComponent name="password" id="password" placeholder="Password" type="password" />
                 <button className="bg-blue-700 w-20 h-8 rounded-md text-white outline-none" type="submit">login</button>
             </form>
         </div>

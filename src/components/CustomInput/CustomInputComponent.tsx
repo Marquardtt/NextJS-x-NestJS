@@ -8,7 +8,7 @@ interface props {
     type: string;
 }
 
-export function CustomInputComponent({ id, name, placeholder, type }: props) {
+export const CustomInputComponent = ({ id, name, placeholder, type }: props) => {
     const [elementFocused, setElementFocused] = useState<HTMLInputElement | null>(null);
 
     return (

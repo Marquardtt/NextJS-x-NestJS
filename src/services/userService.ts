@@ -18,6 +18,12 @@ export const userService = {
         return response.data
     },
 
+    async deleteUser(id: number): Promise<User> {
+        const response = await api.delete(`/user/delete/${id}`)
+        return response.data
+    },
+
+    //sem segurança nenhuma mesmo, só pra fim de teste
     async login(email: string, password: string): Promise<User> {
         const response = await api.get(`/user/login/${email}/${password}`)
         return response.data

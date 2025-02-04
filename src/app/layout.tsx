@@ -11,15 +11,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>();
   return (
-    <html lang="pt-br">
-      <UserContext.Provider value={{user, setUser}}>
+    <html lang="pt-br" className="w-screen h-screen">
+      <UserContext.Provider value={{ user, setUser }}>
         <body className="font-mono">
           <header>
             <HeaderComponent />
           </header>
-          <main className="w-full h-screen">
+          <main className="w-screen h-screen">
             {children}
           </main>
         </body>

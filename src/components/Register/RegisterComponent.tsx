@@ -1,9 +1,8 @@
 import { User } from "@/models/User";
 import { userService } from "@/services/userService";
-import { motion } from "framer-motion";
 import { CustomInputComponent } from "../CustomInput";
 
-export function RegisterComponent() {
+export const RegisterComponent = () => {
 
     const postUser = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
